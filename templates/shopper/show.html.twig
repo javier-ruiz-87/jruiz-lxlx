@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopper{% endblock %}
+
+{% block body %}
+    <h1>Shopper</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ shopper.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ shopper.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Tienda asignada</th>
+                <td>{{ shopper.tienda.nombre }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ shopper.createdAt ? shopper.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('shopper_index') }}">back to list</a>
+
+    <a href="{{ path('shopper_edit', {'id': shopper.id}) }}">edit</a>
+
+    {{ include('shopper/_delete_form.html.twig') }}
+{% endblock %}

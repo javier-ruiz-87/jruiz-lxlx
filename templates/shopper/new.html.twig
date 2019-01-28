@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Shopper{% endblock %}
+
+{% block body %}
+    <h1>Create new Shopper</h1>
+
+    {{ include('shopper/_form.html.twig') }}
+
+    <a href="{{ path('shopper_index') }}">back to list</a>
+{% endblock %}

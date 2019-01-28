@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <ul>
+        <li><a href="{{ path('producto_index') }}">Productos</a></li>
+        <li><a href="{{ path('tienda_index') }}">Tiendas</a></li>
+        <li><a href="{{ path('shopper_index') }}">Shoppers</a></li>
+        <li><a href="{{ path('pedido_index') }}">Pedidos</a></li>
+    </ul>
+{% endblock %}

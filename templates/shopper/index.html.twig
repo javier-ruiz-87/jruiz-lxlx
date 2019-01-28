@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopper index{% endblock %}
+
+{% block body %}
+    <h1>Shopper index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for shopper in shoppers %}
+            <tr>
+                <td>{{ shopper.id }}</td>
+                <td>{{ shopper.nombre }}</td>
+                <td>{{ shopper.tienda.nombre }}</td>
+                <td>{{ shopper.createdAt ? shopper.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('shopper_show', {'id': shopper.id}) }}">show</a>
+                    <a href="{{ path('shopper_edit', {'id': shopper.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('shopper_new') }}">Create new</a>
+{% endblock %}
