@@ -26,3 +26,20 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    # servicios para el formulario
+    pedido.form.type:
+        class: App\Form\PedidoType
+        arguments:
+            - '@pedido_type_subscriber'
+        tags:
+            - { name: form.type }
+
+    pedido_type_subscriber:
+        class: App\Form\EventListener\PedidoTypeSubscriber
+        arguments:
+            - "@pedido.producto.repository"
+
+    pedido.producto.repository:
+        class: App\Repository\PedidoProductoRepository

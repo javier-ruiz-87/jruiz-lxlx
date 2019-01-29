@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Error;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
@@ -83,7 +85,7 @@ class Producto
         return $this->unidades;
     }
 
-    public function setUnidades(int $unidades): self
+    public function setUnidades($unidades): self
     {
         $this->unidades = $unidades;
 
@@ -93,7 +95,7 @@ class Producto
     /**
      * @return mixed
      */
-    public function getPrecio()
+    public function getPrecio(): ?int
     {
         return $this->precio;
     }
@@ -106,9 +108,23 @@ class Producto
     /**
      * @param mixed $precio
      */
-    public function setPrecio($precio)
+    public function setPrecio($precio): self
     {
         $this->precio = $precio;
+
+        return $this;
+    }
+
+    public function checkAndSetPrecio($precio)
+    {
+        if (is_numeric($precio))
+        {
+            $this->setPrecio($precio);
+        }
+        else {
+            throw new \Exception('Error en el precio');
+        }
+
     }
 
     public function getCreatedAt(): ?\DateTimeInterface

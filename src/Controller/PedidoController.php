@@ -34,15 +34,6 @@ class PedidoController extends AbstractController
         $form = $this->createForm(PedidoType::class, $pedido);
         $form->handleRequest($request);
 
-        $importeTotal = 0;
-        foreach ($pedido->getPedidoProductos() as $pedidoProducto)
-        {
-//            $pedidoProducto->getProducto()->getPrecio();
-//            $importeTotal += $producto->getPrecio();
-        }
-        $pedido->setImporte('0');
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($pedido);
