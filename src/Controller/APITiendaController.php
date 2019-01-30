@@ -65,7 +65,7 @@ class APITiendaController extends AbstractController
      */
     protected function createNewObject(Request $request)
     {
-        if (empty($request->query->count())) {
+        if (empty($request->request->count())) {
             throw new NoAPIParametrosException();
         }
         $tienda = new Tienda();

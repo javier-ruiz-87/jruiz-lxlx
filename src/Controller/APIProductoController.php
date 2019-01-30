@@ -68,7 +68,7 @@ class APIProductoController extends AbstractController
      */
     protected function createNewObject(Request $request, TiendaRepository $tiendaRepository)
     {
-        if (empty($request->query->count())) {
+        if (empty($request->request->count())) {
             throw new NoAPIParametrosException();
         }
         $producto = new Producto();

@@ -71,7 +71,7 @@ class APIShopperController extends AbstractController
      */
     private function createNewObject(Request $request, TiendaRepository $tiendaRepository)
     {
-        if (empty($request->query->count())) {
+        if (empty($request->request->count())) {
             throw new NoAPIParametrosException();
         }
         $shopper = new Shopper();
@@ -87,7 +87,7 @@ class APIShopperController extends AbstractController
         return $shopper;
     }
 
-    /**
+    /**TODO: acabar
      * @Route("/dispatch-pedido", name="dispatch_pedido")
      */
     public function dispatchPedidos(Request $request, ShopperRepository $shopperRepository, PedidoRepository $pedidoRepository, TiendaRepository $tiendaRepository,PedidoProductoRepository $pedidoProductoRepository)

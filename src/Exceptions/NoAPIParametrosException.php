@@ -12,8 +12,8 @@ use Throwable;
 
 class NoAPIParametrosException extends \Exception
 {
-    public function __construct(string $message = "", int $code = 0, Throwable $previous = null)
+    public function __construct(string $message = "No me has enviado ningun parametro", int $code = 0, Throwable $previous = null)
     {
-        parent::__construct('No me has enviado ningun parametro', $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }

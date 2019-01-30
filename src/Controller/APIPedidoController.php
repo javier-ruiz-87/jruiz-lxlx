@@ -14,6 +14,7 @@ use App\Entity\PedidoProducto;
 use App\Entity\Producto;
 use App\Exceptions\NoAPIParametrosException;
 use App\Repository\ProductoRepository;
+use App\Utils\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,10 +40,10 @@ class APIPedidoController extends AbstractController
      *
      * @return Response
      */
-    public function add(Request $request, ProductoRepository $productoRepository)
+    public function add(Request $request, ProductoRepository $productoRepository, Validator $validator)
     {
         try {
-            $persistPedido = $this->createNewObject($request, $productoRepository);
+            $persistPedido = $this->createNewObject($request, $productoRepository, $validator);
             $results[] = [
                 'mensaje' => 'Exito al guardar',
                 'codigo' => '1',
@@ -72,15 +73,15 @@ class APIPedidoController extends AbstractController
      *
      * @throws \Exception
      */
-    protected function createNewObject(Request $request, ProductoRepository $productoRepository)
+    protected function createNewObject(Request $request, ProductoRepository $productoRepository, Validator $validator)
     {
-        if (empty($request->query->count())) {
+        if (empty($request->request->count())) {
             throw new NoAPIParametrosException();
         }
         $pedido = new Pedido();
         $pedido->setClienteNombre($request->get('cliente_nombre'));
         $pedido->setClienteDireccion($request->get('cliente_direccion'));
-        $pedido->setClienteEmail($request->get('cliente_email'));
+        $pedido->setClienteEmail($validator->validateEmail($request->get('cliente_email')));
         $pedido->setClienteTelefono((int)$request->get('cliente_telefono'));
 
         $pedido->setFechaEntrega(new \DateTime($request->get('fecha_entrega')));
