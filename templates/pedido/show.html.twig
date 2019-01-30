@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pedido{% endblock %}
+
+{% block body %}
+    <h1>Pedido</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pedido.id }}</td>
+            </tr>
+            <tr>
+                <th>ClienteNombre</th>
+                <td>{{ pedido.clienteNombre }}</td>
+            </tr>
+            <tr>
+                <th>ClienteEmail</th>
+                <td>{{ pedido.clienteEmail }}</td>
+            </tr>
+            <tr>
+                <th>ClienteTelefono</th>
+                <td>{{ pedido.clienteTelefono }}</td>
+            </tr>
+            <tr>
+                <th>ClienteDireccion</th>
+                <td>{{ pedido.clienteDireccion }}</td>
+            </tr>
+            <tr>
+                <th>Importe</th>
+                <td>{{ pedido.importe }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ pedido.createdAt ? pedido.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>FechaEntrega</th>
+                <td>{{ pedido.fechaEntrega ? pedido.fechaEntrega|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>FranjaHoraria</th>
+                <td>{{ pedido.franjaHoraria }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('pedido_index') }}">back to list</a>
+
+    <a href="{{ path('pedido_edit', {'id': pedido.id}) }}">edit</a>
+
+    {{ include('pedido/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pedido index{% endblock %}
+
+{% block body %}
+    <h1>Pedido index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ClienteNombre</th>
+                <th>ClienteEmail</th>
+                <th>ClienteTelefono</th>
+                <th>ClienteDireccion</th>
+                <th>Importe</th>
+                <th>CreatedAt</th>
+                <th>FechaEntrega</th>
+                <th>FranjaHoraria</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.clienteNombre }}</td>
+                <td>{{ pedido.clienteEmail }}</td>
+                <td>{{ pedido.clienteTelefono }}</td>
+                <td>{{ pedido.clienteDireccion }}</td>
+                <td>{{ pedido.importe }}</td>
+                <td>{{ pedido.createdAt ? pedido.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ pedido.fechaEntrega ? pedido.fechaEntrega|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ pedido.franjaHoraria }}</td>
+                <td>
+                    <a href="{{ path('pedido_show', {'id': pedido.id}) }}">show</a>
+                    <a href="{{ path('pedido_edit', {'id': pedido.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('pedido_new') }}">Create new</a>
+{% endblock %}
