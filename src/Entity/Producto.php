@@ -44,7 +44,15 @@ class Producto
     private $createdAt;
 
     /**
-     * Producto constructor
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tienda", inversedBy="producto")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tienda;
+
+    /**
+     * Producto constructor.
+     *
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -106,7 +114,9 @@ class Producto
     }
 
     /**
-     * @param mixed $precio
+     * @param $precio
+     *
+     * @return Producto
      */
     public function setPrecio($precio): self
     {
@@ -115,6 +125,11 @@ class Producto
         return $this;
     }
 
+    /**
+     * @param $precio
+     *
+     * @throws \Exception
+     */
     public function checkAndSetPrecio($precio)
     {
         if (is_numeric($precio))
@@ -124,7 +139,6 @@ class Producto
         else {
             throw new \Exception('Error en el precio');
         }
-
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -135,6 +149,18 @@ class Producto
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTienda(): ?Tienda
+    {
+        return $this->tienda;
+    }
+
+    public function setTienda(?Tienda $tienda): self
+    {
+        $this->tienda = $tienda;
 
         return $this;
     }

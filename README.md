@@ -14,3 +14,16 @@ TODO:
 - APIS mejorar faltan varios validadores, control de errores
 - Tests
 - Revisar todo
+- Añadir peso a los productos para sumarlo al pedido
+- restar la cantidad del pedido a las unidades del producto
+
+
+APIs
+localhost:8000/api/producto/add
+localhost:8000/api/tienda/add
+localhost:8000/api/pedido/add
+localhost:8000/api/shopper/add
+
+Sin acabar:
+localhost:8000/api/shopper/dispatch-pedido
+

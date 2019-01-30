@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Tienda;
+use App\Exceptions\NoAPIParametrosException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,6 @@ class APITiendaController extends AbstractController
      */
     public function add(Request $request)
     {
-
         try {
             $persistTienda = $this->createNewObject($request);
             $results[] = [
@@ -60,12 +60,18 @@ class APITiendaController extends AbstractController
      * @param Request $request
      *
      * @return Tienda
+     *
+     * @throws NoAPIParametrosException
      */
     protected function createNewObject(Request $request)
     {
+        if (empty($request->query->count())) {
+            throw new NoAPIParametrosException();
+        }
         $tienda = new Tienda();
         $tienda->setNombre($request->get('nombre'));
         $tienda->setDireccion($request->get('direccion'));
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($tienda);
         $em->flush();

@@ -12,11 +12,12 @@ namespace App\Controller;
 use App\Entity\Pedido;
 use App\Entity\PedidoProducto;
 use App\Entity\Producto;
+use App\Exceptions\NoAPIParametrosException;
 use App\Repository\ProductoRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class APIPedidoController
@@ -68,9 +69,14 @@ class APIPedidoController extends AbstractController
      * @param ProductoRepository $productoRepository
      *
      * @return Pedido
+     *
+     * @throws \Exception
      */
     protected function createNewObject(Request $request, ProductoRepository $productoRepository)
     {
+        if (empty($request->query->count())) {
+            throw new NoAPIParametrosException();
+        }
         $pedido = new Pedido();
         $pedido->setClienteNombre($request->get('cliente_nombre'));
         $pedido->setClienteDireccion($request->get('cliente_direccion'));
@@ -112,27 +118,18 @@ class APIPedidoController extends AbstractController
                 $productosYCantidadArray = explode(':',$request->get("producto_$i"));
                 $productoCantidad = $productosYCantidadArray[1];
                 /** @var Producto $producto */
-                $producto = $productoRepository->findOneBy(array('id'=>$productosYCantidadArray[0]));
+                $producto = $productoRepository->find($productosYCantidadArray[0]);
                 $importe += ((int)$producto->getPrecio())*((int)$productoCantidad);
 
                 $pedidoProducto = new PedidoProducto($producto, $pedido);
                 $pedidoProducto->setUnidades((int)$productoCantidad);
                 $pedidoProductoPedido[] = $pedidoProducto;
-
             }
         }
-
-//        dump($pedidoProductoPedido);
-//        dump($importe);
 
         return [
           'importe' => $importe,
           'pedidoProductos' => $pedidoProductoPedido
         ];
-    }
-
-    public function calcularImporte()
-    {
-
     }
 }

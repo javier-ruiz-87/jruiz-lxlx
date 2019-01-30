@@ -33,7 +33,9 @@ class Shopper
     private $tienda;
 
     /**
-     * Shopper constructor
+     * Shopper constructor.
+     *
+     * @throws \Exception
      */
     public function __construct()
     {
