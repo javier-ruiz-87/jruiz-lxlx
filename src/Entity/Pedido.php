@@ -54,7 +54,7 @@ class Pedido
     private $fechaEntrega;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PedidoProducto", mappedBy="Pedido")
+     * @ORM\OneToMany(targetEntity="App\Entity\PedidoProducto", mappedBy="Pedido", cascade={"persist", "remove"})
      */
     private $pedidoProductos;
 
@@ -151,7 +151,7 @@ class Pedido
         return $this->fechaEntrega;
     }
 
-    public function setFechaEntrega(\DateTimeInterface $fechaEntrega): self
+    public function setFechaEntrega($fechaEntrega): self
     {
         $this->fechaEntrega = $fechaEntrega;
 
@@ -170,7 +170,7 @@ class Pedido
     {
         if (!$this->pedidoProductos->contains($pedidoProducto)) {
             $this->pedidoProductos[] = $pedidoProducto;
-            $pedidoProducto->addPedidoProducto($this);
+            $pedidoProducto->setPedido($this);
         }
 
         return $this;
@@ -180,7 +180,7 @@ class Pedido
     {
         if ($this->pedidoProductos->contains($pedidoProducto)) {
             $this->pedidoProductos->removeElement($pedidoProducto);
-            $pedidoProducto->removePedidoProducto($this);
+//            $pedidoProducto->removePedido($this);
         }
 
         return $this;

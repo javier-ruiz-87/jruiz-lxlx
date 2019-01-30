@@ -19,6 +19,15 @@ class PedidoProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, PedidoProducto::class);
     }
 
+    public function save($pedidoProducto)
+    {
+        $em = $this->getEntityManager();
+        $em->persist($pedidoProducto);
+        $em->flush();
+
+        return;
+    }
+
     // /**
     //  * @return PedidoProducto[] Returns an array of PedidoProducto objects
     //  */

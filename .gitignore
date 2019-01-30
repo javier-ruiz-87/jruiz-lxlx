@@ -107,6 +107,8 @@ $RECYCLE.BIN/
 # Linux
 .*
 !.gitignore
+!.env
+!.env.test
 *~
 
 # Mac OS X

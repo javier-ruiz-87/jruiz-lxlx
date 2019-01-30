@@ -16,7 +16,7 @@ class PedidoProducto
      */
     private $id;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Pedido")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pedido", inversedBy="pedidoProductos")
      * @ORM\JoinColumn(name="pedido_id", referencedColumnName="id",nullable=false)
      */
     private $pedido;

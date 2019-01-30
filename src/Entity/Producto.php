@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Error;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
@@ -42,7 +44,15 @@ class Producto
     private $createdAt;
 
     /**
-     * Producto constructor
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tienda", inversedBy="producto")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tienda;
+
+    /**
+     * Producto constructor.
+     *
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -83,7 +93,7 @@ class Producto
         return $this->unidades;
     }
 
-    public function setUnidades(int $unidades): self
+    public function setUnidades($unidades): self
     {
         $this->unidades = $unidades;
 
@@ -93,7 +103,7 @@ class Producto
     /**
      * @return mixed
      */
-    public function getPrecio()
+    public function getPrecio(): ?int
     {
         return $this->precio;
     }
@@ -104,11 +114,31 @@ class Producto
     }
 
     /**
-     * @param mixed $precio
+     * @param $precio
+     *
+     * @return Producto
      */
-    public function setPrecio($precio)
+    public function setPrecio($precio): self
     {
         $this->precio = $precio;
+
+        return $this;
+    }
+
+    /**
+     * @param $precio
+     *
+     * @throws \Exception
+     */
+    public function checkAndSetPrecio($precio)
+    {
+        if (is_numeric($precio))
+        {
+            $this->setPrecio($precio);
+        }
+        else {
+            throw new \Exception('Error en el precio');
+        }
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -119,6 +149,18 @@ class Producto
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getTienda(): ?Tienda
+    {
+        return $this->tienda;
+    }
+
+    public function setTienda(?Tienda $tienda): self
+    {
+        $this->tienda = $tienda;
 
         return $this;
     }
