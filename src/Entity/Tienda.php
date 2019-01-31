@@ -38,10 +38,16 @@ class Tienda
      */
     private $shoppers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Producto", mappedBy="tienda")
+     */
+    private $productos;
+
     public function __construct()
     {
         $this->shoppers = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->productos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,6 +116,37 @@ class Tienda
             // set the owning side to null (unless already changed)
             if ($shopper->getTienda() === $this) {
                 $shopper->setTienda(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Producto[]
+     */
+    public function getProductos(): Collection
+    {
+        return $this->productos;
+    }
+
+    public function addProducto(Producto $producto): self
+    {
+        if (!$this->productos->contains($producto)) {
+            $this->productos[] = $producto;
+            $producto->setTienda($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProducto(Producto $producto): self
+    {
+        if ($this->productos->contains($producto)) {
+            $this->productos->removeElement($producto);
+            // set the owning side to null (unless already changed)
+            if ($producto->getTienda() === $this) {
+                $producto->setTienda(null);
             }
         }
 

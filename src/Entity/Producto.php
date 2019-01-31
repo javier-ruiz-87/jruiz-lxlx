@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PhpParser\Error;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
@@ -44,8 +42,7 @@ class Producto
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tienda", inversedBy="producto")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tienda", inversedBy="productos")
      */
     private $tienda;
 

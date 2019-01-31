@@ -87,8 +87,8 @@ class APIShopperController extends AbstractController
         return $shopper;
     }
 
-    /**TODO: acabar
-     * @Route("/dispatch-pedido", name="dispatch_pedido")
+    /**
+     * @Route("/dispatch", name="shopper_api_dipatch", methods={"GET"})
      */
     public function dispatchPedidos(Request $request, ShopperRepository $shopperRepository, PedidoRepository $pedidoRepository, TiendaRepository $tiendaRepository,PedidoProductoRepository $pedidoProductoRepository)
     {
@@ -100,16 +100,14 @@ class APIShopperController extends AbstractController
         $shopper = $shopperRepository->find($request->get('shopper_id'));
         //TODO buscar pedidos con productos de la tienda
         $pedidos = $pedidoRepository->findAll();
-        $pedidoProducto = $pedidoProductoRepository->findAll();
+//        $pedidoProducto = $pedidoProductoRepository->findAll();
 
 //        dump($pedidos[1]);
 //        die();
         $productosTienda=array();
 
         foreach($pedidos as $pedido) {
-            $pedidoProductos = $pedido->getPedidoProductos()->getKeys();
-            dump($pedidoProductos);
-        die();
+            $pedidoProductos = $pedido->getPedidoProductos();
             foreach($pedidoProductos as $pedidoProducto) {
                 /** @var Producto $producto */
                 $producto = $pedidoProducto->getProducto();
@@ -120,15 +118,14 @@ class APIShopperController extends AbstractController
                 }
             }
         }
-
-        dump($productosTienda);
-        die();
-
+//        dump($productosTienda);
+//        die();
         try {
 
             $results[] = [
                 'mensaje' => 'Exito al guardar',
-                'codigo' => '1'
+                'codigo' => '1',
+                'items' => $productosTienda
             ];
         }
         catch (\Throwable $e) {

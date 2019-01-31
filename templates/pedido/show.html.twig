@@ -46,6 +46,25 @@
         </tbody>
     </table>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedidoProducto in pedido.pedidoProductos %}
+                <tr>
+                    <td>{{ pedidoProducto.producto.id }} - {{ pedidoProducto.producto.nombre }}</td>
+                    <td>{{ pedidoProducto.unidades }}</td>
+                    <td>{{ pedidoProducto.producto.precioEuros }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <a href="{{ path('pedido_index') }}">back to list</a>
 
     <a href="{{ path('pedido_edit', {'id': pedido.id}) }}">edit</a>

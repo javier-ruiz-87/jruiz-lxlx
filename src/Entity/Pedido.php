@@ -54,7 +54,7 @@ class Pedido
     private $fechaEntrega;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PedidoProducto", mappedBy="Pedido", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\PedidoProducto", mappedBy="pedido", cascade={"persist", "remove"})
      */
     private $pedidoProductos;
 

@@ -47,15 +47,16 @@ class PedidoTypeSubscriber implements EventSubscriberInterface
     {
         /** @var Pedido $pedido */
         $pedido = $event->getData();
-
-        $productos = $event->getForm()->get('pedidoProductos')->getData();
-        $importe = 10;
-
-        foreach ($productos as $producto) {
-            $pedidoProducto = new pedidoProducto($producto, $pedido);
-            $pedidoProducto->setUnidades(5);
-            $pedido->addPedidoProducto($pedidoProducto);
-            $importe += $producto->getPrecio();
+        $importe = 0;
+        for($i=1;$i<=3;$i++) {
+            if(null !== $event->getForm()->get("producto_$i")) {
+                $producto = $event->getForm()->get("producto_$i")->getData();
+                $cantidad = $event->getForm()->get("producto_cantidad_$i")->getData();
+                $pedidoProducto = new pedidoProducto($producto, $pedido);
+                $pedidoProducto->setUnidades($cantidad);
+                $pedido->addPedidoProducto($pedidoProducto);
+                $importe += $producto->getPrecio();
+            }
         }
 
         $pedido->setImporte($importe);
