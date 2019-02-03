@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
@@ -18,6 +19,7 @@ class Producto
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
      */
     private $nombre;
 
@@ -90,7 +92,7 @@ class Producto
         return $this->unidades;
     }
 
-    public function setUnidades($unidades): self
+    public function setUnidades(?int $unidades): self
     {
         $this->unidades = $unidades;
 

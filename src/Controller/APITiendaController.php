@@ -38,8 +38,8 @@ class APITiendaController extends AbstractController
             $persistTienda = $this->createNewObject($request);
             $results[] = [
                     'mensaje' => 'Exito al guardar',
-                    'codigo' => '1',
-                    'tienda_id' => $persistTienda->getId()
+                    'tienda_id' => $persistTienda->getId(),
+                    'code' => '1',
             ];
         }
         catch (\Throwable $e) {
@@ -47,7 +47,6 @@ class APITiendaController extends AbstractController
                 'mensaje' => 'Hay algun error',
                 'error_mensaje' => $e->getMessage(),
                 'code'    => $e->getCode(),
-                'codigo'  => '0'
             ];
         }
 
@@ -65,8 +64,8 @@ class APITiendaController extends AbstractController
      */
     protected function createNewObject(Request $request)
     {
-        if (empty($request->request->count())) {
-            throw new NoAPIParametrosException();
+        if ($request->request->count() < 2) {
+            throw new NoAPIParametrosException('Espero: nombre y direccion');
         }
         $tienda = new Tienda();
         $tienda->setNombre($request->get('nombre'));

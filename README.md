@@ -13,9 +13,7 @@ Gestor de pedidos Symfony 4 y PHP 7.2. con API Rest
 - localhost:8000/api/tienda/add
 - localhost:8000/api/pedido/add
 - localhost:8000/api/shopper/add
-
-Sin acabar:
-localhost:8000/api/shopper/dispatch-pedido
+- localhost:8000/api/dispatch
 
 
 #### TESTS:
@@ -33,7 +31,6 @@ Changelog:
 - Tests
 
 TODO:
-- API shopper y pedido devuelve productos
 - APIS mejorar faltan varios validadores, control de errores
 - Tests resto
 - Revisar todo
