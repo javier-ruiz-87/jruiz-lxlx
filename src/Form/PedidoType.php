@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Pedido;
 use App\Entity\Producto;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractType;
@@ -33,13 +34,35 @@ class PedidoType extends AbstractType
             ->add('clienteDireccion')
             ->add('fechaEntrega')
             ->add('franjaHoraria')
-            ->add('pedidoProductos', EntityType::class, [
+            ->add('producto_1', EntityType::class, [
                 'class' => Producto::class,
-                'multiple' => true,
                 'mapped' => false,
                 'choice_label' => function (Producto $producto) {
                     return $producto->getNombre().' '.$producto->getPrecioEuros().' €';
                 },
+            ])
+            ->add('producto_cantidad_1', IntegerType::class, [
+                'mapped' => false
+            ])
+            ->add('producto_2', EntityType::class, [
+                'class' => Producto::class,
+                'mapped' => false,
+                'choice_label' => function (Producto $producto) {
+                    return $producto->getNombre().' '.$producto->getPrecioEuros().' €';
+                },
+            ])
+            ->add('producto_cantidad_2', IntegerType::class, [
+                'mapped' => false
+            ])
+            ->add('producto_3', EntityType::class, [
+                'class' => Producto::class,
+                'mapped' => false,
+                'choice_label' => function (Producto $producto) {
+                    return $producto->getNombre().' '.$producto->getPrecioEuros().' €';
+                },
+            ])
+            ->add('producto_cantidad_3', IntegerType::class, [
+                'mapped' => false
             ])
         ;
 

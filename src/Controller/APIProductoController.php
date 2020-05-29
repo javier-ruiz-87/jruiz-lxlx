@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Producto;
 use App\Exceptions\NoAPIParametrosException;
+use App\Exceptions\ValorIncorrectoException;
 use App\Repository\TiendaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,8 +41,8 @@ class APIProductoController extends AbstractController
             $persistProducto = $this->createNewObject($request, $tiendaRepository);
             $results[] = [
                 'mensaje' => 'Exito al guardar',
-                'codigo' => '1',
                 'producto_id' => $persistProducto->getId(),
+                'code' => '1',
             ];
         }
         catch (\Throwable $e) {
@@ -49,7 +50,6 @@ class APIProductoController extends AbstractController
                 'mensaje' => 'Hay algun error',
                 'error_mensaje' => $e->getMessage(),
                 'code'    => $e->getCode(),
-                'codigo'  => '0'
             ];
         }
 
@@ -68,13 +68,20 @@ class APIProductoController extends AbstractController
      */
     protected function createNewObject(Request $request, TiendaRepository $tiendaRepository)
     {
-        if (empty($request->request->count())) {
-            throw new NoAPIParametrosException();
+        if ($request->request->count() < 5) {
+            throw new NoAPIParametrosException('Espero: nombre, descripcion, unidades (en tienda), precio (en centimos), tienda_id');
         }
+
+        //TODO hacer con formulario por validadores
         $producto = new Producto();
+        if ('' == $request->get('nombre')) {
+            throw new ValorIncorrectoException('nombre');
+        }
+
         $producto->setNombre($request->get('nombre'));
+
         $producto->setDescripcion($request->get('descripcion'));
-        $producto->setUnidades($request->get('unidades'));
+        $producto->setUnidades((int)$request->get('unidades'));
         $producto->checkAndSetPrecio($request->get('precio'));
 
         $tienda = $tiendaRepository->find($request->get('tienda_id'));

@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use PhpParser\Error;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductoRepository")
@@ -20,6 +19,7 @@ class Producto
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
      */
     private $nombre;
 
@@ -44,8 +44,7 @@ class Producto
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tienda", inversedBy="producto")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tienda", inversedBy="productos")
      */
     private $tienda;
 
@@ -93,7 +92,7 @@ class Producto
         return $this->unidades;
     }
 
-    public function setUnidades($unidades): self
+    public function setUnidades(?int $unidades): self
     {
         $this->unidades = $unidades;
 

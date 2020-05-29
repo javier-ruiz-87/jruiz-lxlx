@@ -55,6 +55,7 @@ class PedidoController extends AbstractController
     {
         return $this->render('pedido/show.html.twig', [
             'pedido' => $pedido,
+            'pedidoProductos' => $pedido->getPedidoProductos()->getValues()
         ]);
     }
 
